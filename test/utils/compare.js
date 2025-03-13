@@ -1,11 +1,9 @@
 "use strict";
 
-module.exports = compare;
-
 /**
  * Compares two HTML strings, ignoring any whitespace differences.
  */
-function compare (actual, expected) {
+export default function compare(actual, expected) {
   actual = normalizeWhitespace(actual);
   expected = normalizeWhitespace(expected);
 
@@ -19,7 +17,7 @@ function compare (actual, expected) {
 /**
  * Normalizes whitespace in an HTML string
  */
-function normalizeWhitespace (html) {
+function normalizeWhitespace(html) {
   html = html.trim();
   html = html.replace(/\>\s+/g, ">");
   html = html.replace(/\s+\</g, "<");
@@ -30,7 +28,7 @@ function normalizeWhitespace (html) {
 /**
  * Creates a two dimensional array of side-by-side lines from each string
  */
-function createColumns (actual, expected) {
+function createColumns(actual, expected) {
   actual = actual.split("\n");
   expected = expected.split("\n");
   let length = Math.max(actual.length, expected.length);
@@ -50,7 +48,7 @@ function createColumns (actual, expected) {
 /**
  * Joins a two dimensional array of side-by-side lines into a single string
  */
-function formatColumns (columns) {
+function formatColumns(columns) {
   let columnWidth = Math.max(...columns.map(([a]) => a.length));
   let message = "\n\n";
 

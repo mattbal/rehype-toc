@@ -1,7 +1,7 @@
 "use strict";
 
-const process = require("../utils/process");
-const compare = require("../utils/compare");
+import process from "../utils/process";
+import compare from "../utils/compare";
 
 describe("Default Behavior", () => {
 
@@ -36,7 +36,7 @@ describe("Default Behavior", () => {
         </body>
       </html>
     `,
-    { slug: true });
+      { slug: true });
 
     compare(results, `
       <html>

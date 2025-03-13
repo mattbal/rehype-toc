@@ -1,17 +1,15 @@
 "use strict";
 
-const toc = require("../../");
-const unified = require("unified");
-const parse = require("rehype-parse");
-const slug = require("rehype-slug");
-const stringify = require("rehype-stringify");
-
-module.exports = process;
+import toc from "../../";
+import unified from "unified";
+import parse from "rehype-parse";
+import slug from "rehype-slug";
+import stringify from "rehype-stringify";
 
 /**
  * Processes the given HTML using Rehype and the TOC plugin
  */
-async function process (html, { slug: useSlug, ...options } = {}) {
+export default async function process(html, { slug: useSlug, ...options } = {}) {
   let processor = unified().use(parse);
 
   if (useSlug) {

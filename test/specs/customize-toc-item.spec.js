@@ -1,7 +1,7 @@
 "use strict";
 
-const process = require("../utils/process");
-const compare = require("../utils/compare");
+import process from "../utils/process";
+import compare from "../utils/compare";
 
 describe("options.customizeTOCItem", () => {
 
@@ -16,12 +16,12 @@ describe("options.customizeTOCItem", () => {
         </body>
       </html>
     `,
-    {
-      customizeTOCItem (tocItem, heading) {
-        tocItem.properties.className = `my-custom-${heading.tagName}-class`;
-        tocItem.properties.id = `my-custom-${heading.tagName}-id`;
-      },
-    });
+      {
+        customizeTOCItem(tocItem, heading) {
+          tocItem.properties.className = `my-custom-${heading.tagName}-class`;
+          tocItem.properties.id = `my-custom-${heading.tagName}-id`;
+        },
+      });
 
     compare(results, `
       <html>
@@ -70,21 +70,21 @@ describe("options.customizeTOCItem", () => {
         </body>
       </html>
     `,
-    {
-      customizeTOCItem (tocItem, heading) {
-        return {
-          type: "element",
-          tagName: "li",
-          properties: {
-            className: heading.tagName,
-          },
-          children: [
-            heading.children[0],
-            ...tocItem.children.slice(1),
-          ]
-        };
-      },
-    });
+      {
+        customizeTOCItem(tocItem, heading) {
+          return {
+            type: "element",
+            tagName: "li",
+            properties: {
+              className: heading.tagName,
+            },
+            children: [
+              heading.children[0],
+              ...tocItem.children.slice(1),
+            ]
+          };
+        },
+      });
 
     compare(results, `
       <html>
@@ -133,11 +133,11 @@ describe("options.customizeTOCItem", () => {
         </body>
       </html>
     `,
-    {
-      customizeTOCItem (item, heading) {
-        return ["h1", "h2"].includes(heading.tagName);
-      },
-    });
+      {
+        customizeTOCItem(item, heading) {
+          return ["h1", "h2"].includes(heading.tagName);
+        },
+      });
 
     compare(results, `
       <html>
@@ -178,13 +178,13 @@ describe("options.customizeTOCItem", () => {
         </body>
       </html>
     `,
-    {
-      customizeTOCItem (item, heading) {
-        if (heading.tagName === "h4") {
-          return null;
-        }
-      },
-    });
+      {
+        customizeTOCItem(item, heading) {
+          if (heading.tagName === "h4") {
+            return null;
+          }
+        },
+      });
 
     compare(results, `
       <html>

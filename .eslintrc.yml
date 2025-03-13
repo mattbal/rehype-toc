@@ -4,3 +4,6 @@
 
 root: true
 extends: "@jsdevtools"
+rules:
+  languageOptions:
+    sourceType: "module"

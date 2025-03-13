@@ -1,7 +1,7 @@
 "use strict";
 
-const process = require("../utils/process");
-const compare = require("../utils/compare");
+import process from "../utils/process";
+import compare from "../utils/compare";
 
 describe("options.nav", () => {
 
@@ -16,7 +16,7 @@ describe("options.nav", () => {
         </body>
       </html>
     `,
-    { nav: false });
+      { nav: false });
 
     compare(results, `
       <html>
@@ -66,15 +66,15 @@ describe("options.nav", () => {
         </body>
       </html>
     `,
-    {
-      nav: false,
-      cssClasses: {
-        toc: "outline",
-        list: "outline-section",
-        listItem: "outline-bullet",
-        link: "page-link"
-      },
-    });
+      {
+        nav: false,
+        cssClasses: {
+          toc: "outline",
+          list: "outline-section",
+          listItem: "outline-bullet",
+          link: "page-link"
+        },
+      });
 
     compare(results, `
       <html>

@@ -1,7 +1,7 @@
 "use strict";
 
-const process = require("../utils/process");
-const compare = require("../utils/compare");
+import process from "../utils/process";
+import compare from "../utils/compare";
 
 describe("options.headings", () => {
 
@@ -36,10 +36,10 @@ describe("options.headings", () => {
         </body>
       </html>
     `,
-    {
-      slug: true,
-      headings: ["h1", "h2"],
-    });
+      {
+        slug: true,
+        headings: ["h1", "h2"],
+      });
 
     compare(results, `
       <html>
@@ -108,9 +108,9 @@ describe("options.headings", () => {
         </body>
       </html>
     `,
-    {
-      headings: ["h3", "h5", "h1", "h6", "h4", "h2"],
-    });
+      {
+        headings: ["h3", "h5", "h1", "h6", "h4", "h2"],
+      });
 
     compare(results, `
       <html>
@@ -162,9 +162,9 @@ describe("options.headings", () => {
         </body>
       </html>
     `,
-    {
-      headings: ["h2", "h4"],
-    });
+      {
+        headings: ["h2", "h4"],
+      });
 
     compare(results, `
       <html>
@@ -204,9 +204,9 @@ describe("options.headings", () => {
         </body>
       </html>
     `,
-    {
-      headings: ["h5", "h6"],
-    });
+      {
+        headings: ["h5", "h6"],
+      });
 
     compare(results, `
       <html>

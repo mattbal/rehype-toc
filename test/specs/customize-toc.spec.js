@@ -1,7 +1,7 @@
 "use strict";
 
-const process = require("../utils/process");
-const compare = require("../utils/compare");
+import process from "../utils/process";
+import compare from "../utils/compare";
 
 describe("options.customizeTOC", () => {
 
@@ -16,14 +16,14 @@ describe("options.customizeTOC", () => {
         </body>
       </html>
     `,
-    {
-      customizeTOC (toc) {
-        toc.tagName = "div";
-        toc.properties.className = "my-custom-class";
-        toc.properties.id = "my-custom-id";
-        toc.children[0].children[0].children.splice(1, 1);
-      },
-    });
+      {
+        customizeTOC(toc) {
+          toc.tagName = "div";
+          toc.properties.className = "my-custom-class";
+          toc.properties.id = "my-custom-id";
+          toc.children[0].children[0].children.splice(1, 1);
+        },
+      });
 
     compare(results, `
       <html>
@@ -57,21 +57,21 @@ describe("options.customizeTOC", () => {
         </body>
       </html>
     `,
-    {
-      customizeTOC (toc) {
-        return {
-          type: "element",
-          tagName: "div",
-          properties: {
-            id: "table-of-contents",
-          },
-          children: [
-            toc.children[0].children[0].children[0],
-            toc.children[0].children[0].children[1].children[0].children[0],
-          ]
-        };
-      },
-    });
+      {
+        customizeTOC(toc) {
+          return {
+            type: "element",
+            tagName: "div",
+            properties: {
+              id: "table-of-contents",
+            },
+            children: [
+              toc.children[0].children[0].children[0],
+              toc.children[0].children[0].children[1].children[0].children[0],
+            ]
+          };
+        },
+      });
 
     compare(results, `
       <html>
@@ -102,11 +102,11 @@ describe("options.customizeTOC", () => {
         </body>
       </html>
     `,
-    {
-      customizeTOC () {
-        return false;
-      },
-    });
+      {
+        customizeTOC() {
+          return false;
+        },
+      });
 
     compare(results, `
       <html>
@@ -132,11 +132,11 @@ describe("options.customizeTOC", () => {
         </body>
       </html>
     `,
-    {
-      customizeTOC () {
-        return null;
-      },
-    });
+      {
+        customizeTOC() {
+          return null;
+        },
+      });
 
     compare(results, `
       <html>

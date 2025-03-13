@@ -1,7 +1,7 @@
 "use strict";
 
-const process = require("../utils/process");
-const compare = require("../utils/compare");
+import process from "../utils/process";
+import compare from "../utils/compare";
 
 describe("options.cssClasses", () => {
 
@@ -16,14 +16,14 @@ describe("options.cssClasses", () => {
         </body>
       </html>
     `,
-    {
-      cssClasses: {
-        toc: "outline",
-        list: "outline-section",
-        listItem: "outline-bullet",
-        link: "page-link"
-      },
-    });
+      {
+        cssClasses: {
+          toc: "outline",
+          list: "outline-section",
+          listItem: "outline-bullet",
+          link: "page-link"
+        },
+      });
 
     compare(results, `
       <html>
@@ -75,14 +75,14 @@ describe("options.cssClasses", () => {
         </body>
       </html>
     `,
-    {
-      cssClasses: {
-        toc: "",
-        list: false,
-        listItem: 0,
-        link: null
-      },
-    });
+      {
+        cssClasses: {
+          toc: "",
+          list: false,
+          listItem: 0,
+          link: null
+        },
+      });
 
     compare(results, `
       <html>
@@ -134,13 +134,13 @@ describe("options.cssClasses", () => {
         </body>
       </html>
     `,
-    {
-      cssClasses: {
-        list: "outline-section",
-        listItem: undefined,
-        link: "page-link"
-      },
-    });
+      {
+        cssClasses: {
+          list: "outline-section",
+          listItem: undefined,
+          link: "page-link"
+        },
+      });
 
     compare(results, `
       <html>
