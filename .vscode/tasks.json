@@ -23,14 +23,13 @@
       "problemMatcher": "$tsc"
     },
 
-
     {
       "type": "npm",
       "script": "test",
       "group": {
         "kind": "test",
         "isDefault": true
-      },
-    },
+      }
+    }
   ]
 }

@@ -1,6 +1,5 @@
-import { Node } from "unist";
-import { NormalizedOptions } from "./options";
-import { HtmlElementNode } from "./types";
+import { NormalizedOptions } from "./options.js";
+import type { ElementContent, Element, Root } from "hast";
 
 /**
  * Inserts the table of contents at the specified position, relative to the given nodes.
@@ -8,26 +7,36 @@ import { HtmlElementNode } from "./types";
  * @param toc - The table of contents node to insert
  * @param target - The node to insert `toc` in/before/after
  * @param parent - The parent node of `target`. This is used for inserting `toc` before/after `target`
- * @param options - The `position` option determines where `toc` is inserted
+ * @param options - The options for rehype-toc
+ * @param options.position - The `position` option determines where `toc` is inserted
  */
-export function insertTOC(toc: Node, target: HtmlElementNode, parent: HtmlElementNode, { position }: NormalizedOptions): void {
-  let childIndex = parent.children!.indexOf(target);
-
+export function insertTOC(
+  toc: ElementContent,
+  target: Element | Root,
+  parent: Element | Root | undefined,
+  { position }: NormalizedOptions,
+): void {
   switch (position) {
     case "beforebegin":
-      parent.children!.splice(childIndex, 0, toc);
+      if (parent && target.type !== "root") {
+        const childIndex = parent.children.indexOf(target);
+        parent.children.splice(childIndex, 0, toc);
+      }
       break;
 
     case "afterbegin":
-      target.children!.unshift(toc);
+      target.children.unshift(toc);
       break;
 
     case "beforeend":
-      target.children!.push(toc);
+      target.children.push(toc);
       break;
 
     case "afterend":
-      parent.children!.splice(childIndex + 1, 0, toc);
+      if (parent && target.type !== "root") {
+        const childIndex = parent.children.indexOf(target);
+        parent.children.splice(childIndex + 1, 0, toc);
+      }
       break;
 
     default:

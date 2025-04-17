@@ -1,21 +1,32 @@
-import { Node } from "unist";
-import { NormalizedOptions } from "./options";
-import { HeadingNode, HeadingTagName, HtmlElementNode } from "./types";
+import type { Node } from "unist";
+import { NormalizedOptions } from "./options.js";
+import { HeadingNode, HeadingTagName } from "./types.js";
+import type { Element, Root, Text } from "hast";
+
+/**
+ * Determines whether the given node is a Root Node.
+ */
+export function isRoot(node: Node): node is Root {
+  return node.type === "root";
+}
 
 /**
  * Determines whether the given node is an HTML element.
  */
-export function isHtmlElementNode(node: Node): node is HtmlElementNode {
-  return typeof node === "object" &&
-    node.type === "element" &&
-    typeof node.tagName === "string" &&
-    "properties" in node &&
-    typeof node.properties === "object";
+export function isElement(node: Node): node is Element {
+  return node.type === "element";
+}
+
+/**
+ * Determines whether the given node is a Text Node.
+ */
+export function isText(node: Node): node is Text {
+  return node.type === "text";
 }
 
 /**
  * Determines whether the given node is an HTML heading node, according to the specified options
  */
 export function isHeadingNode(node: Node, options: NormalizedOptions): node is HeadingNode {
-  return isHtmlElementNode(node) && options.headings.includes(node.tagName as HeadingTagName);
+  return isElement(node) && options.headings.includes(node.tagName as HeadingTagName);
 }

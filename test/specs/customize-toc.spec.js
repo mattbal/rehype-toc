@@ -1,12 +1,10 @@
-"use strict";
-
-import process from "../utils/process";
-import compare from "../utils/compare";
+import process from "../utils/process.js";
+import compare from "../utils/compare.js";
 
 describe("options.customizeTOC", () => {
-
   it("should modify the TOC in-place", async () => {
-    let results = await process(`
+    let results = await process(
+      `
       <html>
         <body>
           <h1>One</h1>
@@ -23,9 +21,12 @@ describe("options.customizeTOC", () => {
           toc.properties.id = "my-custom-id";
           toc.children[0].children[0].children.splice(1, 1);
         },
-      });
+      },
+    );
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -43,11 +44,13 @@ describe("options.customizeTOC", () => {
           <h4>Four</h4>
         </body>
       </html>
-    `);
+    `,
+    );
   });
 
   it("should replace the TOC with a new node", async () => {
-    let results = await process(`
+    let results = await process(
+      `
       <html>
         <body>
           <h1>One</h1>
@@ -68,12 +71,15 @@ describe("options.customizeTOC", () => {
             children: [
               toc.children[0].children[0].children[0],
               toc.children[0].children[0].children[1].children[0].children[0],
-            ]
+            ],
           };
         },
-      });
+      },
+    );
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -88,11 +94,13 @@ describe("options.customizeTOC", () => {
           <h4>Four</h4>
         </body>
       </html>
-    `);
+    `,
+    );
   });
 
   it("should remove the TOC entirely by returning false", async () => {
-    let results = await process(`
+    let results = await process(
+      `
       <html>
         <body>
           <h1>One</h1>
@@ -106,9 +114,12 @@ describe("options.customizeTOC", () => {
         customizeTOC() {
           return false;
         },
-      });
+      },
+    );
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -118,11 +129,13 @@ describe("options.customizeTOC", () => {
           <h4>Four</h4>
         </body>
       </html>
-    `);
+    `,
+    );
   });
 
   it("should remove the TOC entirely by returning null", async () => {
-    let results = await process(`
+    let results = await process(
+      `
       <html>
         <body>
           <h1>One</h1>
@@ -136,9 +149,12 @@ describe("options.customizeTOC", () => {
         customizeTOC() {
           return null;
         },
-      });
+      },
+    );
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -148,7 +164,7 @@ describe("options.customizeTOC", () => {
           <h4>Four</h4>
         </body>
       </html>
-    `);
+    `,
+    );
   });
-
 });

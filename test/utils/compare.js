@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * Compares two HTML strings, ignoring any whitespace differences.
  */
@@ -19,9 +17,9 @@ export default function compare(actual, expected) {
  */
 function normalizeWhitespace(html) {
   html = html.trim();
-  html = html.replace(/\>\s+/g, ">");
-  html = html.replace(/\s+\</g, "<");
-  html = html.replace(/\>\</g, ">\n<");
+  html = html.replace(/>\s+/g, ">");
+  html = html.replace(/\s+</g, "<");
+  html = html.replace(/></g, ">\n<");
   return html;
 }
 
@@ -53,7 +51,7 @@ function formatColumns(columns) {
   let message = "\n\n";
 
   for (let [index, [column1, column2]] of columns.entries()) {
-    let prefix = (index > 1 && column1 !== column2) ? "❌ " : "✔ ";
+    let prefix = index > 1 && column1 !== column2 ? "❌ " : "✔ ";
     message += prefix + column1.padEnd(columnWidth) + "     " + column2 + "\n";
   }
 

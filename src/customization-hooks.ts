@@ -1,35 +1,51 @@
-import { Node } from "unist";
-import { NormalizedOptions } from "./options";
-import { HtmlElementNode } from "./types";
+import { NormalizedOptions } from "./options.js";
+import { Data } from "./types.js";
+import { isElement } from "./type-guards.js";
+import type { Element, ElementContent } from "hast";
 
 /**
  * A function that allows callers to customize the table of contents
  */
-export type CustomizationHook = (node: Node, ...args: unknown[]) => Node | boolean | undefined;
+export type CustomizationHook = (
+  node: Element,
+  ...args: unknown[]
+) => ElementContent | boolean | undefined;
 
 /**
  * Allows the user to customize the table of contents before it gets added to the page.
  */
-export function customizationHooks(toc: HtmlElementNode, options: NormalizedOptions): Node | undefined {
-  let { customizeTOC, customizeTOCItem } = options;
+export function customizationHooks(
+  toc: Element,
+  options: NormalizedOptions,
+): ElementContent | undefined {
+  const { customizeTOC, customizeTOCItem } = options;
   customizeNodes(toc, "li", customizeTOCItem);
   return customizationHook(customizeTOC, toc);
 }
 
-function customizeNodes(parent: HtmlElementNode, tagName: string, hook?: CustomizationHook): void {
-  if (!hook) { return; }
+/**
+ * Customize nodes using the customizeTOCItem hook
+ */
+function customizeNodes(parent: ElementContent, tagName: string, hook?: CustomizationHook): void {
+  if (!hook) {
+    return;
+  }
 
-  for (let child of parent.children!) {
-    if ((child as HtmlElementNode).tagName === tagName) {
-      let hookArgs = child.data && child.data.hookArgs as unknown[];
-      if (hookArgs) {
-        let newChild = customizationHook(hook, child, hookArgs);
-        replaceNode(parent, child, newChild);
+  if (isElement(parent) && parent.children) {
+    for (const child of parent.children) {
+      if (isElement(child)) {
+        if (child.tagName === tagName) {
+          const hookArgs = child.data && (child.data as Data).hookArgs;
+          if (hookArgs) {
+            const newChild = customizationHook(hook, child, hookArgs);
+            replaceNode(parent, child, newChild);
+          }
+        }
+
+        if (child.children) {
+          customizeNodes(child, tagName, hook);
+        }
       }
-    }
-
-    if (child.children) {
-      customizeNodes(child as HtmlElementNode, tagName, hook);
     }
   }
 }
@@ -37,24 +53,26 @@ function customizeNodes(parent: HtmlElementNode, tagName: string, hook?: Customi
 /**
  * Allows callers to customize the table of contents.
  */
-function customizationHook(hook: CustomizationHook | undefined, node: Node, args: unknown[] = []): Node | undefined {
+function customizationHook(
+  hook: CustomizationHook | undefined,
+  node: Element,
+  args: unknown[] = [],
+): ElementContent | undefined {
   if (!hook) {
     // No customization. Use the original node.
     return node;
   }
 
   // Call the customization hook
-  let newNode = hook(node, ...args);
+  const newNode = hook(node, ...args);
 
   if (newNode && typeof newNode === "object") {
     // The hook returned a new Node to replace the original one
     return newNode;
-  }
-  else if (newNode === true || newNode === undefined) {
+  } else if (newNode === true || newNode === undefined) {
     // Use the original Node
     return node;
-  }
-  else {
+  } else {
     // The hook returned a falsy value, so discard the Node altogether
     return undefined;
   }
@@ -63,18 +81,21 @@ function customizationHook(hook: CustomizationHook | undefined, node: Node, args
 /**
  * Replaces the specified child node with a different node
  */
-function replaceNode(parent: HtmlElementNode, oldChild: Node, newChild: Node | undefined): void {
-  // We only need to do a replacement if the nodes ar different
-  if (newChild !== oldChild) {
-    let index = parent.children!.indexOf(oldChild);
+function replaceNode(
+  parent: Element,
+  oldChild: ElementContent,
+  newChild: ElementContent | undefined,
+): void {
+  // We only need to do a replacement if the nodes are different
+  if (newChild !== oldChild && parent.children) {
+    const index = parent.children.indexOf(oldChild);
 
     if (newChild === undefined) {
       // Remove the old child
-      parent.children!.splice(index, 1);
-    }
-    else {
+      parent.children.splice(index, 1);
+    } else {
       // Replace the old child with the new child
-      parent.children!.splice(index, 1, newChild);
+      parent.children.splice(index, 1, newChild);
     }
   }
 }

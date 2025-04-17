@@ -1,13 +1,12 @@
-"use strict";
-
-import process from "../utils/process";
-import compare from "../utils/compare";
+import process from "../utils/process.js";
+import compare from "../utils/compare.js";
 import { expect } from "chai";
 
 describe("options.position", () => {
   describe("beforebegin", () => {
     it("should insert the TOC before the <main> element", async () => {
-      let results = await process(`
+      let results = await process(
+        `
         <html>
           <body>
             <header>This is the header</header>
@@ -18,9 +17,12 @@ describe("options.position", () => {
       `,
         {
           position: "beforebegin",
-        });
+        },
+      );
 
-      compare(results, `
+      compare(
+        results,
+        `
         <html>
           <head></head>
           <body>
@@ -32,11 +34,13 @@ describe("options.position", () => {
             <footer>This is the footer</footer>
           </body>
         </html>
-      `);
+      `,
+      );
     });
 
     it("should insert the TOC before the <main> element, even if it's the first element", async () => {
-      let results = await process(`
+      let results = await process(
+        `
         <html>
           <body>
             <main>This is the content</main>
@@ -45,9 +49,12 @@ describe("options.position", () => {
       `,
         {
           position: "beforebegin",
-        });
+        },
+      );
 
-      compare(results, `
+      compare(
+        results,
+        `
         <html>
           <head></head>
           <body>
@@ -57,11 +64,13 @@ describe("options.position", () => {
             <main>This is the content</main>
           </body>
         </html>
-      `);
+      `,
+      );
     });
 
     it("should insert the TOC before the <main> element, even there's text content there", async () => {
-      let results = await process(`
+      let results = await process(
+        `
         <html>
           <body>
             Lorem ipsum dolor sit amet...
@@ -71,9 +80,12 @@ describe("options.position", () => {
       `,
         {
           position: "beforebegin",
-        });
+        },
+      );
 
-      compare(results, `
+      compare(
+        results,
+        `
         <html>
           <head></head>
           <body>
@@ -84,13 +96,15 @@ describe("options.position", () => {
             <main>This is the content</main>
           </body>
         </html>
-      `);
+      `,
+      );
     });
   });
 
   describe("afterbegin", () => {
     it("should insert the TOC inside the <main> element", async () => {
-      let results = await process(`
+      let results = await process(
+        `
         <html>
           <body>
             <header>This is the header</header>
@@ -101,9 +115,12 @@ describe("options.position", () => {
       `,
         {
           position: "afterbegin",
-        });
+        },
+      );
 
-      compare(results, `
+      compare(
+        results,
+        `
         <html>
           <head></head>
           <body>
@@ -117,11 +134,13 @@ describe("options.position", () => {
             <footer>This is the footer</footer>
           </body>
         </html>
-      `);
+      `,
+      );
     });
 
     it("should insert the TOC inside the <main> element, even if it's empty", async () => {
-      let results = await process(`
+      let results = await process(
+        `
         <html>
           <body>
             <main></main>
@@ -130,9 +149,12 @@ describe("options.position", () => {
       `,
         {
           position: "afterbegin",
-        });
+        },
+      );
 
-      compare(results, `
+      compare(
+        results,
+        `
         <html>
           <head></head>
           <body>
@@ -143,11 +165,13 @@ describe("options.position", () => {
             </main>
           </body>
         </html>
-      `);
+      `,
+      );
     });
 
     it("should insert the TOC inside the <main> element, even there's text content there", async () => {
-      let results = await process(`
+      let results = await process(
+        `
         <html>
           <body>
             <main>
@@ -158,9 +182,12 @@ describe("options.position", () => {
       `,
         {
           position: "afterbegin",
-        });
+        },
+      );
 
-      compare(results, `
+      compare(
+        results,
+        `
         <html>
           <head></head>
           <body>
@@ -172,13 +199,15 @@ describe("options.position", () => {
             </main>
           </body>
         </html>
-      `);
+      `,
+      );
     });
   });
 
   describe("beforeend", () => {
     it("should insert the TOC inside the <main> element", async () => {
-      let results = await process(`
+      let results = await process(
+        `
         <html>
           <body>
             <header>This is the header</header>
@@ -189,9 +218,12 @@ describe("options.position", () => {
       `,
         {
           position: "beforeend",
-        });
+        },
+      );
 
-      compare(results, `
+      compare(
+        results,
+        `
         <html>
           <head></head>
           <body>
@@ -205,11 +237,13 @@ describe("options.position", () => {
             <footer>This is the footer</footer>
           </body>
         </html>
-      `);
+      `,
+      );
     });
 
     it("should insert the TOC inside the <main> element, even if it's empty", async () => {
-      let results = await process(`
+      let results = await process(
+        `
         <html>
           <body>
             <main></main>
@@ -218,9 +252,12 @@ describe("options.position", () => {
       `,
         {
           position: "beforeend",
-        });
+        },
+      );
 
-      compare(results, `
+      compare(
+        results,
+        `
         <html>
           <head></head>
           <body>
@@ -231,11 +268,13 @@ describe("options.position", () => {
             </main>
           </body>
         </html>
-      `);
+      `,
+      );
     });
 
     it("should insert the TOC inside the <main> element, even there's text content there", async () => {
-      let results = await process(`
+      let results = await process(
+        `
         <html>
           <body>
             <main>
@@ -246,9 +285,12 @@ describe("options.position", () => {
       `,
         {
           position: "beforeend",
-        });
+        },
+      );
 
-      compare(results, `
+      compare(
+        results,
+        `
         <html>
           <head></head>
           <body>
@@ -260,13 +302,15 @@ describe("options.position", () => {
             </main>
           </body>
         </html>
-      `);
+      `,
+      );
     });
   });
 
   describe("afterend", () => {
     it("should insert the TOC after the <main> element", async () => {
-      let results = await process(`
+      let results = await process(
+        `
         <html>
           <body>
             <header>This is the header</header>
@@ -277,9 +321,12 @@ describe("options.position", () => {
       `,
         {
           position: "afterend",
-        });
+        },
+      );
 
-      compare(results, `
+      compare(
+        results,
+        `
         <html>
           <head></head>
           <body>
@@ -291,11 +338,13 @@ describe("options.position", () => {
             <footer>This is the footer</footer>
           </body>
         </html>
-      `);
+      `,
+      );
     });
 
     it("should insert the TOC after the <main> element, even if it's the last element", async () => {
-      let results = await process(`
+      let results = await process(
+        `
         <html>
           <body>
             <main>This is the content</main>
@@ -304,9 +353,12 @@ describe("options.position", () => {
       `,
         {
           position: "afterend",
-        });
+        },
+      );
 
-      compare(results, `
+      compare(
+        results,
+        `
         <html>
           <head></head>
           <body>
@@ -316,11 +368,13 @@ describe("options.position", () => {
             </nav>
           </body>
         </html>
-      `);
+      `,
+      );
     });
 
     it("should insert the TOC after the <main> element, even there's text content there", async () => {
-      let results = await process(`
+      let results = await process(
+        `
         <html>
           <body>
             <main>This is the content</main>
@@ -330,9 +384,12 @@ describe("options.position", () => {
       `,
         {
           position: "afterend",
-        });
+        },
+      );
 
-      compare(results, `
+      compare(
+        results,
+        `
         <html>
           <head></head>
           <body>
@@ -343,16 +400,17 @@ describe("options.position", () => {
             Lorem ipsum dolor sit amet...
           </body>
         </html>
-      `);
+      `,
+      );
     });
   });
-
 
   it("should should throw an error if set to an invalid value", async () => {
     let error;
 
     try {
-      await process(`
+      await process(
+        `
         <html>
           <body>
             <main>This is the content</main>
@@ -362,9 +420,9 @@ describe("options.position", () => {
       `,
         {
           position: "foobar",
-        });
-    }
-    catch (e) {
+        },
+      );
+    } catch (e) {
       error = e;
     }
 

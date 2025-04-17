@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * These rules apply to both JavaScript and TypeScript
  */
@@ -12,20 +10,6 @@ export default {
   "accessor-pairs": "error",
 
   /**
-   * Disallow space inside array square brackets
-   *
-   * @see https://eslint.org/docs/rules/array-bracket-spacing
-   */
-  "array-bracket-spacing": "error",
-
-  /**
-   * Require space before/after arrow function's arrow
-   *
-   * @see https://eslint.org/docs/rules/arrow-spacing
-   */
-  "arrow-spacing": "error",
-
-  /**
    * Treat var statements as if they were block scoped
    *
    * @see https://eslint.org/docs/rules/block-scoped-var
@@ -33,32 +17,11 @@ export default {
   "block-scoped-var": "error",
 
   /**
-   * Require spaces inside of single-line blocks
-   *
-   * @see https://eslint.org/docs/rules/block-spacing
-   */
-  "block-spacing": "error",
-
-  /**
    * Require camel case names
    *
    * @see https://eslint.org/docs/rules/camelcase
    */
   camelcase: "error",
-
-  /**
-   * Require commas to be placed at the ends of lines
-   *
-   * @see https://eslint.org/docs/rules/comma-style
-   */
-  "comma-style": "error",
-
-  /**
-   * Disallow space inside computed property square brackets
-   *
-   * @see https://eslint.org/docs/rules/computed-property-spacing
-   */
-  "computed-property-spacing": "error",
 
   /**
    * Verify calls of super() in constructors
@@ -72,28 +35,7 @@ export default {
    *
    * @see https://eslint.org/docs/rules/curly
    */
-  curly: [
-    "error",
-    "multi-line",
-    "consistent"
-  ],
-
-  /**
-   * Specify the placement of dots in multi-line statements
-   *
-   * @see https://eslint.org/docs/rules/dot-location
-   */
-  "dot-location": [
-    "error",
-    "property",
-  ],
-
-  /**
-   * Enforce newline at the end of file, with no multiple empty lines
-   *
-   * @see https://eslint.org/docs/rules/eol-last
-   */
-  "eol-last": "error",
+  curly: ["error", "multi-line", "consistent"],
 
   /**
    * Require the use of === and !==
@@ -112,7 +54,7 @@ export default {
     "declaration",
     {
       allowArrowFunctions: true,
-    }
+    },
   ],
 
   /**
@@ -123,59 +65,11 @@ export default {
   "guard-for-in": "error",
 
   /**
-   * Specify 2-space indentation
-   *
-   * @see https://eslint.org/docs/rules/indent
-   */
-  indent: [
-    "error",
-    2,                        // 2 spaces
-    {
-      SwitchCase: 1,          // indent multipler for "switch" "case" statements
-      VariableDeclarator: {
-        var: 2,               // indent multiplier for multi-line "var" statements
-        let: 2,               // indent multiplier for multi-line "let" statements
-        const: 3,             // indent multiplier for multi-line "const" statements
-      },
-    },
-  ],
-
-  /**
-   * Require double for JSX attributes
-   *
-   * @see https://eslint.org/docs/rules/jsx-quotes
-   */
-  "jsx-quotes": [
-    "error",
-    "prefer-double",
-  ],
-
-  /**
-   * Enforces spacing between keys and values in object literal properties
-   *
-   * @see https://eslint.org/docs/rules/key-spacing
-   */
-  "key-spacing": [
-    "error",
-    {
-      beforeColon: false,
-      afterColon: true,
-    },
-  ],
-
-  /**
    * Require a capital letter for constructors
    *
    * @see https://eslint.org/docs/rules/new-cap
    */
   "new-cap": "error",
-
-  /**
-   * Disallow the omission of parentheses when invoking a constructor with no arguments
-   *
-   * @see https://eslint.org/docs/rules/new-parens
-   */
-  "new-parens": "error",
 
   /**
    * Disallow the use of alert, confirm, and prompt
@@ -227,8 +121,8 @@ export default {
   "no-constant-condition": [
     "error",
     {
-      checkLoops: false,    // allow "while (true)"
-    }
+      checkLoops: false, // allow "while (true)"
+    },
   ],
 
   /**
@@ -337,13 +231,6 @@ export default {
   "no-fallthrough": "error",
 
   /**
-   * Disallow the use of leading or trailing decimal points in numeric literals
-   *
-   * @see https://eslint.org/docs/rules/no-floating-decimal
-   */
-  "no-floating-decimal": "error",
-
-  /**
    * Disallow overwriting functions written as function declarations
    *
    * @see https://eslint.org/docs/rules/no-func-assign
@@ -414,25 +301,6 @@ export default {
   "no-loop-func": "warn",
 
   /**
-   * Disallow mixed spaces and tabs for indentation
-   *
-   * @see https://eslint.org/docs/rules/no-mixed-spaces-and-tabs
-   */
-  "no-mixed-spaces-and-tabs": "error",
-
-  /**
-   * Disallow use of multiple spaces
-   *
-   * @see https://eslint.org/docs/rules/no-multi-spaces
-   */
-  "no-multi-spaces": [
-    "error",
-    {
-      ignoreEOLComments: true,    // allow multiple spaces before end-of-line comments (like this one!)
-    }
-  ],
-
-  /**
    * Disallow use of multiline strings
    *
    * @see https://eslint.org/docs/rules/no-multi-str
@@ -440,18 +308,16 @@ export default {
   "no-multi-str": "error",
 
   /**
-   * Disallow reassignments of native objects
+   * Disallow import declarations which import non-existent modules, but allow typescript imports
    *
-   * @see https://eslint.org/docs/rules/no-native-reassign
+   * @see https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/no-missing-import.md
    */
-  "no-native-reassign": "error",
-
-  /**
-   * Disallow negation of the left operand of an in expression
-   *
-   * @see https://eslint.org/docs/rules/no-negated-in-lhs
-   */
-  "no-negated-in-lhs": "error",
+  "n/no-missing-import": [
+    "error",
+    {
+      ignoreTypeImport: true,
+    },
+  ],
 
   /**
    * Disallow use of new operator when not part of the assignment or comparison
@@ -468,25 +334,18 @@ export default {
   "no-new-func": "error",
 
   /**
-   * Disallow use of the Object constructor
-   *
-   * @see https://eslint.org/docs/rules/no-new-object
-   */
-  "no-new-object": "error",
-
-  /**
-   * Disallow use of new operator with the require function
-   *
-   * @see https://eslint.org/docs/rules/no-new-require
-   */
-  "no-new-require": "error",
-
-  /**
    * Disallows creating new instances of String, Number, and Boolean
    *
    * @see https://eslint.org/docs/rules/no-new-wrappers
    */
   "no-new-wrappers": "error",
+
+  /**
+   * Disallow new operators with calls to require
+   *
+   * @see https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/no-new-require.md
+   */
+  "n/no-new-require": "error",
 
   /**
    * Disallow the use of object properties of the global object (Math and JSON) as functions
@@ -512,9 +371,9 @@ export default {
   /**
    * Disallow string concatenation with __dirname and __filename
    *
-   * @see https://eslint.org/docs/rules/no-path-concat
+   * @see https://github.com/eslint-community/eslint-plugin-n/blob/master/docs/rules/no-path-concat.md
    */
-  "no-path-concat": "error",
+  "n/no-path-concat": "error",
 
   /**
    * Disallow usage of __proto__ property
@@ -594,13 +453,6 @@ export default {
   "no-throw-literal": "error",
 
   /**
-   * Disallow trailing whitespace at the end of lines
-   *
-   * @see https://eslint.org/docs/rules/no-trailing-spaces
-   */
-  "no-trailing-spaces": "error",
-
-  /**
    * Disallow use of undeclared variables
    *
    * @see https://eslint.org/docs/rules/no-undef
@@ -671,20 +523,6 @@ export default {
   "no-with": "error",
 
   /**
-   * Require a space around curly braces in object literals
-   *
-   * @see https://eslint.org/docs/rules/object-curly-spacing
-   */
-  "object-curly-spacing": [
-    "error",
-    "always",
-    {
-      arraysInObjects: false,
-      objectsInObjects: false
-    }
-  ],
-
-  /**
    * Require method and property shorthand syntax for object literals
    *
    * @see https://eslint.org/docs/rules/object-shorthand
@@ -706,18 +544,8 @@ export default {
   "prefer-arrow-callback": [
     "error",
     {
-      allowNamedFunctions: true,     // unless the function is named
-    }
-  ],
-
-  /**
-   * Disallow quotes around object literal property names
-   *
-   * @see https://eslint.org/docs/rules/quote-props
-   */
-  "quote-props": [
-    "warn",
-    "as-needed",
+      allowNamedFunctions: true, // unless the function is named
+    },
   ],
 
   /**
@@ -726,60 +554,6 @@ export default {
    * @see https://eslint.org/docs/rules/require-yield
    */
   "require-yield": "error",
-
-  /**
-   * Enforce spacing after semicolons
-   *
-   * @see https://eslint.org/docs/rules/semi-spacing
-   */
-  "semi-spacing": "error",
-
-  /**
-   * Disallow space before blocks
-   *
-   * @see https://eslint.org/docs/rules/space-before-blocks
-   */
-  "space-before-blocks": "error",
-
-  /**
-   * Disallow spaces inside parentheses
-   *
-   * @see https://eslint.org/docs/rules/space-in-parens
-   */
-  "space-in-parens": "error",
-
-  /**
-   * Require spaces around operators
-   *
-   * @see https://eslint.org/docs/rules/space-infix-ops
-   */
-  "space-infix-ops": "error",
-
-  /**
-   * Disallow spaces before/after unary operators
-   *
-   * @see https://eslint.org/docs/rules/space-unary-ops
-   */
-  "space-unary-ops": "error",
-
-  /**
-   * Require a space at the start of a comment
-   *
-   * @see https://eslint.org/docs/rules/spaced-comment
-   */
-  "spaced-comment": [
-    "error",
-    "always",
-    {
-      line: {
-        markers: ["/", "//", "///", "////"],  // allow line comments to start with multiple slashes
-      },
-      block: {
-        markers: ["*", "!", "*!"],            // allow JSDoc block comments
-        exceptions: ["*", "-", "=", "+"],     // allow block comments to start with a line of these characters
-      },
-    },
-  ],
 
   /**
    * Disallow comparisons with the value NaN
@@ -794,13 +568,6 @@ export default {
    * @see https://eslint.org/docs/rules/valid-typeof
    */
   "valid-typeof": "error",
-
-  /**
-   * Require immediate function invocation to be wrapped in parentheses
-   *
-   * @see https://eslint.org/docs/rules/wrap-iife
-   */
-  "wrap-iife": "error",
 
   /**
    * Disallow Yoda conditions

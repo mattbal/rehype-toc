@@ -1,7 +1,7 @@
-import { toc } from "./rehype-toc";
+import { toc } from "./rehype-toc.js";
 
-export { CssClasses, InsertPosition, Options } from "./options";
-export * from "./types";
+export { CssClasses, InsertPosition, Options } from "./options.js";
+export * from "./types.js";
 export { toc };
 
 // Export `toc` as the default export

@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * Relax some JavaScript rules for testing purposes
  */
@@ -19,13 +17,6 @@ export default {
   "no-new": "off",
 
   /**
-   * Ignore unnecessary `return await` statements
-   *
-   * @see https://eslint.org/docs/rules/no-return-await
-   */
-  "no-return-await": "off",
-
-  /**
    * Warn about usage of expressions in statement position
    *
    * @see https://eslint.org/docs/rules/no-unused-expressions
@@ -33,8 +24,8 @@ export default {
   "no-unused-expressions": [
     "warn",
     {
-      allowShortCircuit: true,   // allow short-circuited expressions (e.g. foo && bar())
-      allowTernary: true,        // allow ternary expressions (e.g. foo ? bar() : baz())
+      allowShortCircuit: true, // allow short-circuited expressions (e.g. foo && bar())
+      allowTernary: true, // allow ternary expressions (e.g. foo ? bar() : baz())
     },
   ],
 

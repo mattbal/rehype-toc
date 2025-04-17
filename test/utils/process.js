@@ -1,7 +1,5 @@
-"use strict";
-
-import toc from "../../";
-import unified from "unified";
+import toc from "../../lib/index.js";
+import { unified } from "unified";
 import parse from "rehype-parse";
 import slug from "rehype-slug";
 import stringify from "rehype-stringify";
@@ -16,9 +14,8 @@ export default async function process(html, { slug: useSlug, ...options } = {}) 
     processor.use(slug);
   }
 
-  processor.use(toc, options);
-  processor.use(stringify);
+  processor.use(toc, options).use(stringify);
 
   let file = await processor.process(html);
-  return file.contents;
+  return file.value;
 }

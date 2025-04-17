@@ -1,41 +1,40 @@
-import { Node } from "unist";
-import { isHtmlElementNode } from "./type-guards";
-import { HtmlElementNode } from "./types";
+import { isElement } from "./type-guards.js";
+import type { Element, Root } from "hast";
 
 /**
  * Returns the `<main>` node, or the `<body>` node if there is no `<main>`.
  * The second node returned is the parent of the first node.
  */
-export function findMainNode(root: Node): [HtmlElementNode, HtmlElementNode] {
-  let [body, bodyParent] = findTagName(root, "body");
-  let [main, mainParent] = findTagName(body || root, "main");
+export function findMainNode(root: Root): [Element | Root, Element | Root | undefined] {
+  const [body, bodyParent] = findTagName(root, "body");
+  const [main, mainParent] = findTagName(body ?? root, "main");
 
   if (main) {
-    return [main, mainParent || body || root as HtmlElementNode];
-  }
-  else {
-    return [
-      body || root as HtmlElementNode,
-      bodyParent || root as HtmlElementNode
-    ];
+    return [main, mainParent ?? body];
+  } else {
+    return [body ?? root, bodyParent];
   }
 }
-
 
 /**
  * Recursively crawls the HAST tree and finds the first element with the specified tag name.
  */
-function findTagName(node: Node, tagName: string): [HtmlElementNode | undefined, HtmlElementNode | undefined] {
-  if (isHtmlElementNode(node) && node.tagName === tagName) {
-    return [node, undefined];
+function findTagName(
+  node: Element | Root,
+  tagName: string,
+  parent: Element | Root | undefined = undefined,
+): [Element | undefined, Element | Root | undefined] {
+  if (isElement(node) && node.tagName === tagName) {
+    return [node, parent];
   }
 
   if (node.children) {
-    let parent = node as HtmlElementNode;
-    for (let child of parent.children!) {
-      let [found] = findTagName(child, tagName);
-      if (found) {
-        return [found, parent];
+    for (const child of node.children) {
+      if (isElement(child)) {
+        const [found, foundParent] = findTagName(child, tagName, node);
+        if (found) {
+          return [found, foundParent];
+        }
       }
     }
   }

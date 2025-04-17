@@ -1,20 +1,16 @@
 # Table of Contents plugin for Rehype
+
 A [rehype](https://github.com/rehypejs/rehype) plugin that adds a table of contents (TOC) to the page
 
-[![Cross-Platform Compatibility](https://jstools.dev/img/badges/os-badges.svg)](https://github.com/JS-DevTools/rehype-toc/actions)
-[![Build Status](https://github.com/JS-DevTools/rehype-toc/workflows/CI-CD/badge.svg)](https://github.com/JS-DevTools/rehype-toc/actions)
+> forked from [JS-DevTools/rehype-toc](https://github.com/JS-DevTools/rehype-toc) as the original repository seems no longer maintained.
 
-[![Coverage Status](https://coveralls.io/repos/github/JS-DevTools/rehype-toc/badge.svg?branch=master)](https://coveralls.io/github/JS-DevTools/rehype-toc)
-[![Dependencies](https://david-dm.org/JS-DevTools/rehype-toc.svg)](https://david-dm.org/JS-DevTools/rehype-toc)
+[![Test Status](https://github.com/mattbal/rehype-toc/workflows/test/badge.svg)](https://github.com/mattbal/rehype-toc/actions)
 
-[![npm](https://img.shields.io/npm/v/@jsdevtools/rehype-toc.svg)](https://www.npmjs.com/package/@jsdevtools/rehype-toc)
-[![License](https://img.shields.io/npm/l/@jsdevtools/rehype-toc.svg)](LICENSE)
-[![Buy us a tree](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-lightgreen)](https://plant.treeware.earth/JS-DevTools/rehype-toc)
+[![npm](https://img.shields.io/npm/v/%40mattbal%2Frehype-toc)](https://www.npmjs.com/package/@mattbal/rehype-toc)
+[![License](https://img.shields.io/npm/l/%40mattbal%2Frehype-toc)](LICENSE)
 
+## Features
 
-
-Features
---------------------------
 - Adds a `<nav>` and `<ol>` list outlining all headings on the page
 - Combine with [rehype-slug](https://github.com/rehypejs/rehype-slug) to create links to each heading
 - Ignores headings outside of `<main>` if it exists
@@ -22,10 +18,7 @@ Features
 - You can customize the CSS classes on every TOC element
 - Hooks give you complete customization of the generated HTML
 
-
-
-Example
---------------------------
+## Example
 
 **input.html**<br>
 Here's the original HTML file. There are three levels of headings (`<h1>` - `<h3>`), and none of them have IDs.
@@ -64,31 +57,26 @@ Here's the original HTML file. There are three levels of headings (`<h1>` - `<h3
 **example.js**<br>
 This script reads the `input.html` file above writes the results to `output.html` (shown below). The script uses [unified](https://unifiedjs.com/), [rehype-parse](https://github.com/rehypejs/rehype/tree/master/packages/rehype-parse), [rehype-slug](https://github.com/rehypejs/rehype-slug), and [rehype-stringify](https://github.com/rehypejs/rehype/tree/master/packages/rehype-stringify).
 
-
 ```javascript
-const unified = require("unified");
-const parse = require("rehype-parse");
-const slug = require("rehype-slug");
-const toc = require("@jsdevtools/rehype-toc");
-const stringify = require("rehype-stringify");
-const fs = require("fs");
+import { unified } from "unified";
+import parse from "rehype-parse";
+import slug from "rehype-slug";
+import toc from "@mattbal/rehype-toc";
+import stringify from "rehype-stringify";
+import fs from "node:fs/promises";
 
 async function example() {
   // Create a Rehype processor with the TOC plugin
-  const processor = unified()
-    .use(parse)
-    .use(slug)
-    .use(toc)
-    .use(stringify);
+  const processor = unified().use(parse).use(slug).use(toc).use(stringify);
 
   // Read the original HTML file
-  let inputHTML = await fs.promises.readFile("input.html");
+  let inputHTML = await fs.readFile("input.html");
 
   // Process the HTML, adding heading IDs and Table of Contents
   let outputHTML = await processor.process(inputHTML);
 
   // Save the new HTML
-  await fs.promises.writeFile("output.html", outputHTML);
+  await fs.writeFile("output.html", outputHTML.value);
 }
 ```
 
@@ -101,15 +89,11 @@ Here's the HTML that gets created by the above script. Notice that a table of co
     <nav class="toc">
       <ol class="toc-level toc-level-1">
         <li class="toc-item toc-item-h1">
-          <a class="toc-link toc-link-h1" href="#apple-pie-recipe">
-            Apple Pie Recipe
-          </a>
+          <a class="toc-link toc-link-h1" href="#apple-pie-recipe"> Apple Pie Recipe </a>
 
           <ol class="toc-level toc-level-2">
             <li class="toc-item toc-item-h2">
-              <a class="toc-link toc-link-h2" href="#filling">
-                Filling
-              </a>
+              <a class="toc-link toc-link-h2" href="#filling"> Filling </a>
 
               <ol class="toc-level toc-level-3">
                 <li class="toc-item toc-item-h3">
@@ -126,9 +110,7 @@ Here's the HTML that gets created by the above script. Notice that a table of co
             </li>
 
             <li class="toc-item toc-item-h2">
-              <a class="toc-link toc-link-h2" href="#crust">
-                Crust
-              </a>
+              <a class="toc-link toc-link-h2" href="#crust"> Crust </a>
 
               <ol class="toc-level toc-level-3">
                 <li class="toc-item toc-item-h3">
@@ -176,14 +158,12 @@ Here's the HTML that gets created by the above script. Notice that a table of co
 </html>
 ```
 
+## Installation
 
-
-Installation
---------------------------
 You can install Rehype TOC via [npm](https://docs.npmjs.com/about-npm/).
 
 ```bash
-npm install @jsdevtools/rehype-toc
+npm install @mattbal/rehype-toc
 ```
 
 You'll probably want to install [unified](https://unifiedjs.com/), [rehype-parse](https://github.com/rehypejs/rehype/tree/master/packages/rehype-parse), [rehype-stringify](https://github.com/rehypejs/rehype/tree/master/packages/rehype-stringify), and [rehype-slug](https://github.com/rehypejs/rehype-slug) as well.
@@ -192,84 +172,66 @@ You'll probably want to install [unified](https://unifiedjs.com/), [rehype-parse
 npm install unified rehype-parse rehype-stringify rehype-slug
 ```
 
+## Usage
 
-
-Usage
---------------------------
-Using the Rehype TOC plugin requires an understanding of how to use Unified and Rehype. [Here is an excelleng guide](https://unifiedjs.com/learn/guide/introduction-to-unified/) to learn the basics.
+Using the Rehype TOC plugin requires an understanding of how to use Unified and Rehype. [Here is an excellent guide](https://unifiedjs.com/learn/guide/introduction-to-unified/) to learn the basics.
 
 The Rehype TOC plugin works just like any other Rehype plugin. Pass it to [the `.use()` method](https://github.com/unifiedjs/unified#processoruseplugin-options), optionally with an [options object](#options).
 
 ```javascript
-const unified = require("unified");
-const toc = require("@jsdevtools/rehype-toc");
+import { unified } from "unified";
+import toc from "@mattbal/rehype-toc";
 
 // Use the Rehype TOC plugin with its default options
 unified().use(toc);
 
 // Use the Rehype TOC plugin with custom options
 unified().use(toc, {
-  headings: ["h1", "h2"],     // Only include <h1> and <h2> headings in the TOC
+  headings: ["h1", "h2"], // Only include <h1> and <h2> headings in the TOC
   cssClasses: {
-    toc: "page-outline",      // Change the CSS class for the TOC
-    link: "page-link",        // Change the CSS class for links in the TOC
-  }
+    toc: "page-outline", // Change the CSS class for the TOC
+    link: "page-link", // Change the CSS class for links in the TOC
+  },
 });
 ```
 
+## Options
 
-
-Options
---------------------------
 The Rehype TOC plugin supports the following options:
 
-|Option                |Type                |Default                |Description
-|:---------------------|:-------------------|:----------------------|:-----------------------------------------
-|`nav`                 |boolean             |true                   |Determines whether the table of contents is wrapped in a `<nav>` element.
-|`position`            |string              |"afterbegin"           |The position at which the table of contents should be inserted, relative to the `<main>` or `<body>` element. Can be "beforebegin", "afterbegin", "beforeend", or "afterend". See [the `insertAdjacentElement()` docs](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentElement) for an explanation of each value.
-|`headings`            |array of strings    |h1, h2, h3, h4, h5, h6 |The HTML heading tags to include in the table of contents
-|`cssClasses.toc`      |string              |toc                    |The CSS class name for the top-level `<nav>` or `<ol>` element that contains the whole table of contents.
-|`cssClasses.list`     |string              |toc-level              |The CSS class name for all `<ol>` elements in the table of contents, including the top-level one.
-|`cssClasses.listItem` |string              |toc-item               |The CSS class name for all `<li>` elements in the table of contents.
-|`cssClasses.link`     |string              |toc-link               |The CSS class name for all `<a>` elements in the table of contents.
-|`customizeTOC`        |function(toc)       |                       |Allows you to customize the table of contents before it is added to the page.<br><br>The function receives the TOC node tree and can modify it in any way you want. Or you can return a new node tree to use instead. Or return `false` to prevent the the TOC from being added to the page.
-|`customizeTOCItem`    |function(toc, heading)|                     |Allows you to customize each item in the table of contents before it is added to the page.<br><br>The function receives the TOC item's node tree and the heading node that it refers to. You can modify the nodes in any way you want. Or you can return a new node tree to use instead. Or return `false` to prevent the the TOC from being added to the page.
+| Option                | Type                   | Default                | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| :-------------------- | :--------------------- | :--------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `nav`                 | boolean                | true                   | Determines whether the table of contents is wrapped in a `<nav>` element.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `position`            | string                 | "afterbegin"           | The position at which the table of contents should be inserted, relative to the `<main>` or `<body>` element. Can be "beforebegin", "afterbegin", "beforeend", or "afterend". See [the `insertAdjacentElement()` docs](https://developer.mozilla.org/en-US/docs/Web/API/Element/insertAdjacentElement) for an explanation of each value.                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| `headings`            | array of strings       | h1, h2, h3, h4, h5, h6 | The HTML heading tags to include in the table of contents                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `cssClasses.toc`      | string                 | toc                    | The CSS class name for the top-level `<nav>` or `<ol>` element that contains the whole table of contents.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `cssClasses.list`     | string                 | toc-level              | The CSS class name for all `<ol>` elements in the table of contents, including the top-level one.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `cssClasses.listItem` | string                 | toc-item               | The CSS class name for all `<li>` elements in the table of contents.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `cssClasses.link`     | string                 | toc-link               | The CSS class name for all `<a>` elements in the table of contents.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `addClassSuffix`      | boolean                | true                   | If true, the elements in the table of contents will have a suffix appended to their class name. E.g., a generated `<li class="toc-item">` will become `<li class="toc-item toc-item-h1">`, which will allow you to apply different CSS styling depending on the element's depth level. To add the suffix, under the hood, rehype-toc duplicates the element's class name and appends the suffix at the end of the class name. So, if you plan on using a custom class name for an element with multiple classes in it like `cssClasses: { listItem: "toc-item focused semibold"}`, make sure to set `addClassSuffix` to false, otherwise, your multiple class names will be unnecessarily duplicated like so: `toc-item focused semibold toc-item focused semibold-h2` |
+| `customizeTOC`        | function(toc)          |                        | Allows you to customize the table of contents before it is added to the page.<br><br>The function receives the TOC node tree and can modify it in any way you want. Or you can return a new node tree to use instead. Or return `false` to prevent the the TOC from being added to the page.                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `customizeTOCItem`    | function(toc, heading) |                        | Allows you to customize each item in the table of contents before it is added to the page.<br><br>The function receives the TOC item's node tree and the heading node that it refers to. You can modify the nodes in any way you want. Or you can return a new node tree to use instead. Or return `false` to prevent the the TOC from being added to the page.                                                                                                                                                                                                                                                                                                                                                                                                        |
 
+## Contributing
 
-
-Contributing
---------------------------
-Contributions, enhancements, and bug-fixes are welcome!  [Open an issue](https://github.com/JS-DevTools/rehype-toc/issues) on GitHub and [submit a pull request](https://github.com/JS-DevTools/rehype-toc/pulls).
+Contributions, enhancements, and bug-fixes are welcome! [Open an issue](https://github.com/mattbal/rehype-toc/issues) on GitHub and [submit a pull request](https://github.com/mattbal/rehype-toc/pulls).
 
 #### Building
+
 To build the project locally on your computer:
 
-1. __Clone this repo__<br>
-`git clone https://github.com/JS-DevTools/rehype-toc.git`
+1. **Clone this repo**<br>
+   `git clone https://github.com/mattbal/rehype-toc.git`
 
-2. __Install dependencies__<br>
-`npm install`
+2. **Install dependencies**<br>
+   `npm install`
 
-3. __Build the code__<br>
-`npm run build`
+3. **Build the code**<br>
+   `npm run build`
 
-4. __Run the tests__<br>
-`npm test`
+4. **Run the tests**<br>
+   `npm test`
 
+## License
 
-
-License
---------------------------
 Rehype TOC is 100% free and open-source, under the [MIT license](LICENSE). Use it however you want.
-
-This package is [Treeware](http://treeware.earth). If you use it in production, then we ask that you [**buy the world a tree**](https://plant.treeware.earth/JS-DevTools/rehype-toc) to thank us for our work. By contributing to the Treeware forest you’ll be creating employment for local families and restoring wildlife habitats.
-
-
-
-Big Thanks To
---------------------------
-Thanks to these awesome companies for their support of Open Source developers ❤
-
-[![Travis CI](https://jstools.dev/img/badges/travis-ci.svg)](https://travis-ci.com)
-[![SauceLabs](https://jstools.dev/img/badges/sauce-labs.svg)](https://saucelabs.com)
-[![Coveralls](https://jstools.dev/img/badges/coveralls.svg)](https://coveralls.io)

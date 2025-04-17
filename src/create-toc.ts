@@ -1,18 +1,20 @@
-import { getInnerText } from "./get-inner-text";
-import { buildClass, NormalizedOptions } from "./options";
-import { HeadingNode, HtmlElementNode, ListItemNode, ListNode } from "./types";
+import { getInnerText } from "./get-inner-text.js";
+import { buildClass, NormalizedOptions } from "./options.js";
+import { isElement } from "./type-guards.js";
+import { HeadingNode } from "./types.js";
+import type { Element } from "hast";
 
 interface TocLevel {
   depth: number;
   headingNumber: number;
-  list: ListNode;
+  list: Element | undefined;
 }
 
 /**
  * Creates a `<nav>` and/or `<ol>` element containing the table of contents.
  */
-export function createTOC(headings: HeadingNode[], options: NormalizedOptions): HtmlElementNode {
-  let list = createTocList(headings, options);
+export function createTOC(headings: HeadingNode[], options: NormalizedOptions): Element {
+  const list = createTocList(headings, options);
 
   if (options.nav) {
     return {
@@ -23,8 +25,7 @@ export function createTOC(headings: HeadingNode[], options: NormalizedOptions): 
       },
       children: [list],
     };
-  }
-  else {
+  } else {
     list.properties.className =
       [options.cssClasses.toc, list.properties.className].filter(Boolean).join(" ") || undefined;
     return list;
@@ -34,21 +35,21 @@ export function createTOC(headings: HeadingNode[], options: NormalizedOptions): 
 /**
  * Creates an `<ol>` element containing the table of contents.
  */
-function createTocList(headings: HeadingNode[], options: NormalizedOptions): HtmlElementNode {
+function createTocList(headings: HeadingNode[], options: NormalizedOptions): Element {
   let levels: TocLevel[] = [];
   let currentLevel: TocLevel = {
     depth: 0,
     headingNumber: 0,
-    list: undefined as unknown as ListNode,
+    list: undefined,
   };
 
-  for (let heading of headings) {
-    let headingNumber = parseInt(heading.tagName.slice(-1), 10);
+  for (const heading of headings) {
+    const headingNumber = parseInt(heading.tagName.slice(-1), 10);
 
     if (headingNumber > currentLevel.headingNumber) {
       // This is a higher heading number, so start a new level
-      let depth = currentLevel.depth + 1;
-      let level = {
+      const depth = currentLevel.depth + 1;
+      const level = {
         depth,
         headingNumber,
         list: createList(heading, depth, options),
@@ -56,18 +57,20 @@ function createTocList(headings: HeadingNode[], options: NormalizedOptions): Htm
 
       // Add the new list to the previous level's list
       if (currentLevel.list) {
-        let lastItem = currentLevel.list.children.slice(-1)[0];
-        lastItem.children.push(level.list);
+        const lastItem = currentLevel.list.children.slice(-1)[0];
+        // should be an Element Node
+        if (isElement(lastItem)) {
+          lastItem.children.push(level.list);
+        }
       }
 
       levels.push(level);
       currentLevel = level;
-    }
-    else {
+    } else {
       if (headingNumber < currentLevel.headingNumber) {
         // This is a lower heading number, so we need to go up to a previous level
         for (let i = levels.length - 2; i >= 0; i--) {
-          let level = levels[i];
+          const level = levels[i];
           if (level.headingNumber === headingNumber) {
             // We found the previous level that matches this heading
             levels = levels.slice(0, i + 1);
@@ -82,34 +85,44 @@ function createTocList(headings: HeadingNode[], options: NormalizedOptions): Htm
 
       // This heading is the same level as the previous heading,
       // so just add another <li> to the same <ol>
-      let listItem = createListItem(heading, options);
-      currentLevel.list.children.push(listItem);
+      const listItem = createListItem(heading, options);
+      if (currentLevel.list) {
+        currentLevel.list.children.push(listItem);
+      }
     }
   }
 
   if (levels.length === 0) {
     return createList(undefined, 1, options);
-  }
-  else {
+  } else if (levels[0].list) {
     return levels[0].list;
+  } else {
+    // in case levels[0].list is undefined, which shouldn't happen
+    return createList(undefined, 1, options);
   }
 }
 
 /**
  * Creates an `<ol>` and `<li>` element for the given heading
  */
-function createList(heading: HeadingNode | undefined, depth: number, options: NormalizedOptions): ListNode {
-  let list: ListNode = {
+function createList(
+  heading: HeadingNode | undefined,
+  depth: number,
+  options: NormalizedOptions,
+): Element {
+  const list: Element = {
     type: "element",
     tagName: "ol",
     properties: {
-      className: buildClass(options.cssClasses.list, depth),
+      className: options.addClassSuffix
+        ? buildClass(options.cssClasses.list, depth)
+        : options.cssClasses.list,
     },
     children: [],
   };
 
   if (heading) {
-    let listItem = createListItem(heading, options);
+    const listItem = createListItem(heading, options);
     list.children.push(listItem);
   }
 
@@ -119,7 +132,7 @@ function createList(heading: HeadingNode | undefined, depth: number, options: No
 /**
  * Creates an `<li>` element for the given heading
  */
-function createListItem(heading: HeadingNode, options: NormalizedOptions): ListItemNode {
+function createListItem(heading: HeadingNode, options: NormalizedOptions): Element {
   return {
     type: "element",
     tagName: "li",
@@ -127,23 +140,27 @@ function createListItem(heading: HeadingNode, options: NormalizedOptions): ListI
       hookArgs: [heading],
     },
     properties: {
-      className: buildClass(options.cssClasses.listItem, heading.tagName),
+      className: options.addClassSuffix
+        ? buildClass(options.cssClasses.listItem, heading.tagName)
+        : options.cssClasses.listItem,
     },
     children: [
       {
         type: "element",
         tagName: "a",
         properties: {
-          className: buildClass(options.cssClasses.link, heading.tagName),
-          href: `#${heading.properties.id || ""}`,
+          className: options.addClassSuffix
+            ? buildClass(options.cssClasses.link, heading.tagName)
+            : options.cssClasses.link,
+          href: `#${heading.properties.id ?? ""}`,
         },
         children: [
           {
             type: "text",
             value: getInnerText(heading),
-          }
-        ]
-      }
+          },
+        ],
+      },
     ],
   };
 }

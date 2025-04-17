@@ -1,12 +1,10 @@
-"use strict";
-
-import process from "../utils/process";
-import compare from "../utils/compare";
+import process from "../utils/process.js";
+import compare from "../utils/compare.js";
 
 describe("options.headings", () => {
-
   it("should only include the specified headings in the TOC", async () => {
-    let results = await process(`
+    let results = await process(
+      `
       <html>
         <body>
           <h1>Apple Pie Recipe</h1>
@@ -39,9 +37,12 @@ describe("options.headings", () => {
       {
         slug: true,
         headings: ["h1", "h2"],
-      });
+      },
+    );
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -94,11 +95,13 @@ describe("options.headings", () => {
           </div>
         </body>
       </html>
-    `);
+    `,
+    );
   });
 
   it("should follow document order, not options order", async () => {
-    let results = await process(`
+    let results = await process(
+      `
       <html>
         <body>
           <h1>One</h1>
@@ -110,9 +113,12 @@ describe("options.headings", () => {
     `,
       {
         headings: ["h3", "h5", "h1", "h6", "h4", "h2"],
-      });
+      },
+    );
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -148,11 +154,13 @@ describe("options.headings", () => {
           <h4>Four</h4>
         </body>
       </html>
-    `);
+    `,
+    );
   });
 
   it("should allow heading levels to be skipped", async () => {
-    let results = await process(`
+    let results = await process(
+      `
       <html>
         <body>
           <h1>One</h1>
@@ -164,9 +172,12 @@ describe("options.headings", () => {
     `,
       {
         headings: ["h2", "h4"],
-      });
+      },
+    );
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -190,11 +201,13 @@ describe("options.headings", () => {
           <h4>Four</h4>
         </body>
       </html>
-    `);
+    `,
+    );
   });
 
   it("should build an empty TOC if no headings match the list", async () => {
-    let results = await process(`
+    let results = await process(
+      `
       <html>
         <body>
           <h1>One</h1>
@@ -206,9 +219,12 @@ describe("options.headings", () => {
     `,
       {
         headings: ["h5", "h6"],
-      });
+      },
+    );
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -223,7 +239,7 @@ describe("options.headings", () => {
           <h4>Four</h4>
         </body>
       </html>
-    `);
+    `,
+    );
   });
-
 });

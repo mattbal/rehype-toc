@@ -1,12 +1,10 @@
-"use strict";
-
-import process from "../utils/process";
-import compare from "../utils/compare";
+import process from "../utils/process.js";
+import compare from "../utils/compare.js";
 
 describe("options.nav", () => {
-
   it("should output a top-level <ol> instead of a <nav>", async () => {
-    let results = await process(`
+    let results = await process(
+      `
       <html>
         <body>
           <h1>One</h1>
@@ -16,9 +14,12 @@ describe("options.nav", () => {
         </body>
       </html>
     `,
-      { nav: false });
+      { nav: false },
+    );
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -52,11 +53,13 @@ describe("options.nav", () => {
           <h4>Four</h4>
         </body>
       </html>
-    `);
+    `,
+    );
   });
 
   it("should put the cssClasses.toc class on the <ol> instead of the <nav>", async () => {
-    let results = await process(`
+    let results = await process(
+      `
       <html>
         <body>
           <h1>One</h1>
@@ -72,11 +75,14 @@ describe("options.nav", () => {
           toc: "outline",
           list: "outline-section",
           listItem: "outline-bullet",
-          link: "page-link"
+          link: "page-link",
         },
-      });
+      },
+    );
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -110,7 +116,7 @@ describe("options.nav", () => {
           <h4>Four</h4>
         </body>
       </html>
-    `);
+    `,
+    );
   });
-
 });

@@ -1,12 +1,10 @@
-"use strict";
-
-import process from "../utils/process";
-import compare from "../utils/compare";
+import process from "../utils/process.js";
+import compare from "../utils/compare.js";
 
 describe("options.customizeTOCItem", () => {
-
   it("should modify each item in-place", async () => {
-    let results = await process(`
+    let results = await process(
+      `
       <html>
         <body>
           <h1>One</h1>
@@ -21,9 +19,12 @@ describe("options.customizeTOCItem", () => {
           tocItem.properties.className = `my-custom-${heading.tagName}-class`;
           tocItem.properties.id = `my-custom-${heading.tagName}-id`;
         },
-      });
+      },
+    );
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -56,11 +57,13 @@ describe("options.customizeTOCItem", () => {
           <h4>Four</h4>
         </body>
       </html>
-    `);
+    `,
+    );
   });
 
   it("should replace each item with a new node", async () => {
-    let results = await process(`
+    let results = await process(
+      `
       <html>
         <body>
           <h1>One</h1>
@@ -78,15 +81,15 @@ describe("options.customizeTOCItem", () => {
             properties: {
               className: heading.tagName,
             },
-            children: [
-              heading.children[0],
-              ...tocItem.children.slice(1),
-            ]
+            children: [heading.children[0], ...tocItem.children.slice(1)],
           };
         },
-      });
+      },
+    );
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -119,11 +122,13 @@ describe("options.customizeTOCItem", () => {
           <h4>Four</h4>
         </body>
       </html>
-    `);
+    `,
+    );
   });
 
   it("should remove some items entirely by returning false", async () => {
-    let results = await process(`
+    let results = await process(
+      `
       <html>
         <body>
           <h1>One</h1>
@@ -137,9 +142,12 @@ describe("options.customizeTOCItem", () => {
         customizeTOCItem(item, heading) {
           return ["h1", "h2"].includes(heading.tagName);
         },
-      });
+      },
+    );
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -164,11 +172,13 @@ describe("options.customizeTOCItem", () => {
           <h4>Four</h4>
         </body>
       </html>
-    `);
+    `,
+    );
   });
 
   it("should remove some items entirely by returning null", async () => {
-    let results = await process(`
+    let results = await process(
+      `
       <html>
         <body>
           <h1>One</h1>
@@ -184,9 +194,12 @@ describe("options.customizeTOCItem", () => {
             return null;
           }
         },
-      });
+      },
+    );
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -216,7 +229,7 @@ describe("options.customizeTOCItem", () => {
           <h4>Four</h4>
         </body>
       </html>
-    `);
+    `,
+    );
   });
-
 });

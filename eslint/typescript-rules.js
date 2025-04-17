@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * These are basic TypeScript rules that DON'T require type information.
  */
@@ -7,48 +5,47 @@ export default {
   /**
    * Use bracket syntax for simple arrays, and generic syntax for complex arrays.
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/array-type.md
+   * @see https://typescript-eslint.io/rules/array-type
    */
   "@typescript-eslint/array-type": [
     "error",
     {
       default: "array-simple",
       readonly: "array-simple",
-    }
+    },
   ],
 
   /**
    * Allow certain @ts directives, but require a comment
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/ban-ts-comment.md
+   * @see https://typescript-eslint.io/rules/ban-ts-comment
    */
   "@typescript-eslint/ban-ts-comment": [
     "error",
     {
       "ts-expect-error": "allow-with-description",
       "ts-nocheck": "allow-with-description",
-      "ts-ignore": true,  // never allow
-      "ts-check": false,  // always allow
+      "ts-ignore": true, // never allow
+      "ts-check": false, // always allow
       minimumDescriptionLength: 10,
-    }
+    },
   ],
 
   /**
    * Remove old TSLint comments from code
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/ban-tslint-comment.md
+   * @see https://typescript-eslint.io/rules/ban-tslint-comment
    */
   "@typescript-eslint/ban-tslint-comment": "error",
 
   /**
-   * Ban specific types from being used
+   * Restrict specific types from being used
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/ban-types.md
+   * @see https://typescript-eslint.io/rules/no-restricted-types
    */
-  "@typescript-eslint/ban-types": [
+  "@typescript-eslint/no-restricted-types": [
     "error",
     {
-      extendDefaults: false,
       types: {
         String: {
           message: "Use string instead",
@@ -74,142 +71,57 @@ export default {
           message: "Use object instead",
           fixWith: "object",
         },
-      }
-    }
-  ],
-
-  /**
-   * Enforce one true brace style
-   *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/brace-style.md
-   */
-  "@typescript-eslint/brace-style": [
-    "error",
-    "stroustrup",
-    {
-      // allow opening and closing brace to be on the same line
-      allowSingleLine: true,
-    },
-  ],
-
-  /**
-   * Enforce spacing after comma (but not before)
-   *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/comma-spacing.md
-   */
-  "@typescript-eslint/comma-spacing": [
-    "warn",
-    {
-      before: false,
-      after: true,
+      },
     },
   ],
 
   /**
    * Enforce consistent syntax for type assertions (`foo as Bar` rather than `<Bar>foo`)
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-assertions.md
+   * @see https://typescript-eslint.io/rules/consistent-type-assertions
    */
   "@typescript-eslint/consistent-type-assertions": "error",
 
   /**
    * Prefer interfaces over type definitions
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/consistent-type-definitions.md
+   * @see https://typescript-eslint.io/rules/consistent-type-definitions
    */
-  "@typescript-eslint/consistent-type-definitions": [
-    "error",
-    "interface"
-  ],
+  "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
 
   /**
    * Require default parameters to be the last parameters in the function
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/default-param-last.md
+   * @see https://typescript-eslint.io/rules/default-param-last
    */
   "@typescript-eslint/default-param-last": "error",
 
   /**
    * Require explicit accessibility modifiers on class members
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/explicit-member-accessibility.md
+   * @see https://typescript-eslint.io/rules/explicit-member-accessibility
    */
   "@typescript-eslint/explicit-member-accessibility": "error",
 
   /**
-   * Disallow spaces after the function name in function calls
-   *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/func-call-spacing.md
-   */
-  "@typescript-eslint/func-call-spacing": "error",
-
-  /**
-   * Use 2-space indentation
-   *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/indent.md
-   */
-  "@typescript-eslint/indent": [
-    "error",
-    2,                        // 2 spaces
-    {
-      SwitchCase: 1,          // indent multipler for "switch" "case" statements
-      VariableDeclarator: {
-        var: 2,               // indent multiplier for multi-line "var" statements
-        let: 2,               // indent multiplier for multi-line "let" statements
-        const: 3,             // indent multiplier for multi-line "const" statements
-      },
-    },
-  ],
-
-  /**
-   * Require a space before and after keywords
-   *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/keyword-spacing.md
-   */
-  "@typescript-eslint/keyword-spacing": "error",
-
-  /**
-   * Require a blank line between class members
-   *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/lines-between-class-members.md
-   */
-  "@typescript-eslint/lines-between-class-members": [
-    "error",
-    "always",
-    {
-      exceptAfterSingleLine: true,
-    }
-  ],
-
-  /**
-   * Require semicolon delimiters between interface members
-   *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/member-delimiter-style.md
-   */
-  "@typescript-eslint/member-delimiter-style": "error",
-
-  /**
    * Use method shorthand syntax, rather than function property syntax
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/method-signature-style.md
+   * @see https://typescript-eslint.io/rules/method-signature-style
    */
-  "@typescript-eslint/method-signature-style": [
-    "error",
-    "method"
-  ],
+  "@typescript-eslint/method-signature-style": ["error", "method"],
 
   /**
    * Enforce typical TypeScript naming conventions
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/naming-convention.md
+   * @see https://typescript-eslint.io/rules/naming-convention
    */
   "@typescript-eslint/naming-convention": [
     "error",
     {
       selector: "default",
       filter: {
-        regex: "\\W",            // Ignore quoted properties (ones that contain non-word characters)
-        match: false
+        regex: "\\W", // Ignore quoted properties (ones that contain non-word characters)
+        match: false,
       },
       format: ["camelCase"],
       leadingUnderscore: "allow",
@@ -224,7 +136,7 @@ export default {
     {
       selector: "typeParameter",
       format: ["PascalCase"],
-      prefix: ["T"],            // Require generics to start with a T (e.g. T, TFoo, TBar)
+      prefix: ["T"], // Require generics to start with a T (e.g. T, TFoo, TBar)
     },
 
     {
@@ -236,298 +148,201 @@ export default {
       selector: "interface",
       format: ["PascalCase"],
       custom: {
-        regex: "^I[A-Z]",       // Interfaces should NOT begin with "I"
-        match: false
-      }
+        regex: "^I[A-Z]", // Interfaces should NOT begin with "I"
+        match: false,
+      },
     },
 
     {
       selector: "typeLike",
       format: ["PascalCase"],
-    }
+    },
   ],
 
   /**
    * Disallow use of the Array constructor
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-array-constructor.md
+   * @see https://typescript-eslint.io/rules/no-array-constructor
    */
   "@typescript-eslint/no-array-constructor": "error",
 
   /**
    * Don't allo non-null assertions that may be confused with inequality operators
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-confusing-non-null-assertion.md
+   * @see https://typescript-eslint.io/rules/no-confusing-non-null-assertion
    */
   "@typescript-eslint/no-confusing-non-null-assertion": "error",
 
   /**
-   * Disallow duplicate name in class members
-   *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-dupe-class-members.md
-   */
-  "@typescript-eslint/no-dupe-class-members": "error",
-
-  /**
    * Deleting dynamically computed keys can be dangerous and in some cases not well optimized.
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-dynamic-delete.md
+   * @see https://typescript-eslint.io/rules/no-dynamic-delete
    */
   "@typescript-eslint/no-dynamic-delete": "error",
 
   /**
    * Warn about empty functions
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-empty-function.md
+   * @see https://typescript-eslint.io/rules/no-empty-function
    */
   "@typescript-eslint/no-empty-function": "warn",
 
   /**
-   * Don't allow empty interfaces
+   * Don't allow empty objects
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-empty-interface.md
+   * @see https://typescript-eslint.io/rules/no-empty-object-type
    */
-  "@typescript-eslint/no-empty-interface": [
-    "error",
-    {
-      allowSingleExtends: true,   // Allow empty interfaces that extend another interface. This is preferred instead of a type alias.
-    }
-  ],
+  "@typescript-eslint/no-empty-object-type": "error",
 
   /**
    * Warn about using the "any" type
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-explicit-any.md
+   * @see https://typescript-eslint.io/rules/no-explicit-any
    */
   "@typescript-eslint/no-explicit-any": "warn",
 
   /**
    * Don't allow redundant non-null assertion operators
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-extra-non-null-assertion.md
+   * @see https://typescript-eslint.io/rules/no-extra-non-null-assertion
    */
   "@typescript-eslint/no-extra-non-null-assertion": "error",
 
   /**
-   * Disallow unnecessary semicolons
-   *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-extra-semi.md
-   */
-  "@typescript-eslint/no-extra-semi": "error",
-
-  /**
    * Don't allow classes that only contain constructors and/or static members
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-extraneous-class.md
+   * @see https://typescript-eslint.io/rules/no-extraneous-class
    */
   "@typescript-eslint/no-extraneous-class": [
     "error",
     {
-      allowWithDecorator: true,   // Allow classes that are needed for frameworks
-    }
+      allowWithDecorator: true, // Allow classes that are needed for frameworks
+    },
   ],
 
   /**
    * Disallow explicit type declarations when variables are initialized
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-inferrable-types.md
+   * @see https://typescript-eslint.io/rules/no-inferrable-types
    */
   "@typescript-eslint/no-inferrable-types": "error",
 
   /**
-   * Don't allow the `this` keyword to be used in functions that don't have a `this` parameter defined
-   *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-invalid-this.md
-   */
-  "@typescript-eslint/no-invalid-this": "error",
-
-  /**
    * Enforce valid definition of `new` and `constructor`
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-misused-new.md
+   * @see https://typescript-eslint.io/rules/no-misused-new
    */
   "@typescript-eslint/no-misused-new": "error",
 
   /**
    * Disallow TypeScript namespaces in code.  Only allow for type declarations.
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-namespace.md
+   * @see https://typescript-eslint.io/rules/no-namespace
    */
   "@typescript-eslint/no-namespace": [
     "error",
     {
       allowDeclarations: true,
       allowDefinitionFiles: true,
-    }
+    },
   ],
 
   /**
    * Disallows using a non-null assertion after an optional chain expression
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-non-null-asserted-optional-chain.md
+   * @see https://typescript-eslint.io/rules/no-non-null-asserted-optional-chain
    */
   "@typescript-eslint/no-non-null-asserted-optional-chain": "error",
 
   /**
-   * Don't allow parameter properties
-   *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-parameter-properties.md
-   */
-  "@typescript-eslint/no-parameter-properties": "error",
-
-  /**
-   * Don't allow `require()`.  Use `import` syntax instead.
-   *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-require-imports.md
-   */
-  "@typescript-eslint/no-require-imports": "error",
-
-  /**
    * Disallow usage of expressions in statement position
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unused-expressions.md
+   * @see https://typescript-eslint.io/rules/no-unused-expressions
    */
   "@typescript-eslint/no-unused-expressions": [
     "error",
     {
-      allowShortCircuit: true,   // allow short-circuited expressions (e.g. foo && bar())
-      allowTernary: true,        // allow ternary expressions (e.g. foo ? bar() : baz())
+      allowShortCircuit: true, // allow short-circuited expressions (e.g. foo && bar())
+      allowTernary: true, // allow ternary expressions (e.g. foo ? bar() : baz())
     },
   ],
 
   /**
    * Disallow declaration of variables that are not used in the code
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unused-vars.md
+   * @see https://typescript-eslint.io/rules/no-unused-vars
    */
   "@typescript-eslint/no-unused-vars": [
     "error",
     {
-      vars: "all",                // check "all" variables (as opposed to just "local" variables)
-      args: "after-used",         // check any arguments that come "after-used" arguments
-      ignoreRestSiblings: true,   // ignore siblings of ...rest params
-      argsIgnorePattern: "^_",    // Ignore params that begin with an underscore
-      varsIgnorePattern: "^_",    // Ignore variables that begin with an underscore
+      vars: "all", // check "all" variables (as opposed to just "local" variables)
+      args: "after-used", // check any arguments that come "after-used" arguments
+      ignoreRestSiblings: true, // ignore siblings of ...rest params
+      argsIgnorePattern: "^_", // Ignore params that begin with an underscore
+      varsIgnorePattern: "^_", // Ignore variables that begin with an underscore
     },
-  ],
-
-  /**
-   * Disallow declaration of variables that are not used in the code
-   *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-unused-vars-experimental.md
-   */
-  "@typescript-eslint/no-unused-vars-experimental": [
-    "error",
-    {
-      ignoreArgsIfArgsAfterAreUsed: true,
-    }
   ],
 
   /**
    * Don't allow constructors that are empty or only call super()
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-useless-constructor.md
+   * @see https://typescript-eslint.io/rules/no-useless-constructor
    */
   "@typescript-eslint/no-useless-constructor": "error",
 
   /**
-   * Disallows the use of require statements except in import statements (`import foo = require("foo")`)
+   * Disallows the use of require
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-var-requires.md
+   * @see https://typescript-eslint.io/rules/no-require-imports/
    */
-  "@typescript-eslint/no-var-requires": "error",
+  "@typescript-eslint/no-require-imports": "error",
 
   /**
    * Prefer usage of as const over literal type
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-as-const.md
+   * @see https://typescript-eslint.io/rules/prefer-as-const
    */
   "@typescript-eslint/prefer-as-const": "error",
 
   /**
    * Use function types instead of interfaces with call signatures
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-function-type.md
+   * @see https://typescript-eslint.io/rules/prefer-function-type
    */
   "@typescript-eslint/prefer-function-type": "error",
 
   /**
    * Require that all enum members be literal values
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-literal-enum-member.md
+   * @see https://typescript-eslint.io/rules/prefer-literal-enum-member
    */
   "@typescript-eslint/prefer-literal-enum-member": "error",
 
   /**
    * Require the use of the namespace keyword instead of the module keyword to declare custom TypeScript modules
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-namespace-keyword.md
+   * @see https://typescript-eslint.io/rules/prefer-namespace-keyword
    */
   "@typescript-eslint/prefer-namespace-keyword": "error",
 
   /**
-   * TODO: Enable this rule once optional chaining is supported by all LTS versions of Node
+   * Enforce optional chaining
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-optional-chain.md
+   * @see https://typescript-eslint.io/rules/prefer-optional-chain
    */
-  "@typescript-eslint/prefer-optional-chain": "off",
-
-  /**
-   * Always use @ts-expect-error instead of @ts-ignore
-   *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-ts-expect-error.md
-   */
-  "@typescript-eslint/prefer-ts-expect-error": "error",
-
-  /**
-   * Require double quotes for all strings
-   *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/quotes.md
-   */
-  "@typescript-eslint/quotes": [
-    "error",
-    "double",
-    "avoid-escape",
-  ],
-
-  /**
-   * Require use of semicolons instead of ASI
-   *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/semi.md
-   */
-  "@typescript-eslint/semi": "error",
-
-  /**
-   * Disallow a space between the function name and left paren
-   *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/space-before-function-paren.md
-   */
-  "@typescript-eslint/space-before-function-paren": [
-    "error",
-    "never",
-  ],
+  "@typescript-eslint/prefer-optional-chain": "error",
 
   /**
    * Use `import` rather than triple slash directives
    *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/triple-slash-reference.md
+   * @see https://typescript-eslint.io/rules/triple-slash-reference
    */
   "@typescript-eslint/triple-slash-reference": "error",
-
-  /**
-   * Require consistent spacing around type annotations
-   *
-   * @see https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/type-annotation-spacing.md
-   */
-  "@typescript-eslint/type-annotation-spacing": "error",
 
   /**
    * Don't allow the "use strict" pragma
    *
    * @see https://eslint.org/docs/rules/strict
    */
-  strict: [
-    "error",
-    "never",
-  ],
+  strict: ["error", "never"],
 };

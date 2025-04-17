@@ -1,12 +1,10 @@
-"use strict";
-
-import process from "../utils/process";
-import compare from "../utils/compare";
+import process from "../utils/process.js";
+import compare from "../utils/compare.js";
 
 describe("Default Behavior", () => {
-
   it("should create a TOC for all headings in the <body>", async () => {
-    let results = await process(`
+    let results = await process(
+      `
       <html>
         <body>
           <h1>Apple Pie Recipe</h1>
@@ -36,9 +34,12 @@ describe("Default Behavior", () => {
         </body>
       </html>
     `,
-      { slug: true });
+      { slug: true },
+    );
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -118,7 +119,7 @@ describe("Default Behavior", () => {
           </div>
         </body>
       </html>
-    `);
+    `,
+    );
   });
-
 });

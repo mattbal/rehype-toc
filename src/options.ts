@@ -1,6 +1,6 @@
-import { Node } from "unist";
-import { CustomizationHook } from "./customization-hooks";
-import { HeadingTagName, HtmlElementNode, ListItemNode } from "./types";
+import { CustomizationHook } from "./customization-hooks.js";
+import { HeadingTagName, ListItemNode } from "./types.js";
+import type { Element, ElementContent } from "hast";
 
 /**
  * The different positions at which the table of contents can be inserted,
@@ -42,6 +42,15 @@ export interface Options {
   cssClasses?: CssClasses;
 
   /**
+   * If true, the elements in the table of contents will have a suffix appended to their class name. E.g., a generated `<li class="toc-item">` will become `<li class="toc-item toc-item-h1">`, which will allow you to apply different CSS styling depending on the element's depth level.
+   *
+   * To add the suffix, under the hood, rehype-toc duplicates the element's class name and appends the suffix at the end of the class name. So, if you plan on using a custom class name for an element with multiple classes in it like `cssClasses: { listItem: "toc-item focused semibold"}`, make sure to set `addClassSuffix` to false, otherwise, your multiple class names will be unnecessarily duplicated like so: `toc-item focused semibold toc-item focused semibold-h2`
+   *
+   * Defaults to `true`.
+   */
+  addClassSuffix?: boolean;
+
+  /**
    * Allows you to customize the table of contents before it is added to the page.
    *
    * @param toc - The table of contents HAST node tree
@@ -49,7 +58,7 @@ export interface Options {
    * existing node. You can return a falsy value to prevent the table of contents from being added
    * to the page.
    */
-  customizeTOC?(toc: HtmlElementNode): Node | boolean | undefined;
+  customizeTOC?(toc: Element): ElementContent | boolean | undefined;
 
   /**
    * Allows you to customize an item before it is added to the table of contents.
@@ -61,7 +70,7 @@ export interface Options {
    * existing node. You can return a falsy value to prevent the item from being added to the
    * table of contents.
    */
-  customizeTOCItem?(tocItem: ListItemNode, heading: HtmlElementNode): Node | boolean | undefined;
+  customizeTOCItem?(tocItem: ListItemNode, heading: Element): ElementContent | boolean | undefined;
 }
 
 /**
@@ -106,6 +115,7 @@ export class NormalizedOptions {
   public readonly position: InsertPosition;
   public readonly headings: HeadingTagName[];
   public readonly cssClasses: Required<CssClasses>;
+  public readonly addClassSuffix: boolean;
   public readonly customizeTOC?: CustomizationHook;
   public readonly customizeTOCItem?: CustomizationHook;
 
@@ -113,17 +123,19 @@ export class NormalizedOptions {
    * Applies default values for any unspecified options
    */
   public constructor(options: Options = {}) {
-    let cssClasses = options.cssClasses || {};
+    const cssClasses = options.cssClasses ?? {};
 
     this.nav = options.nav === undefined ? true : Boolean(options.nav);
-    this.position = options.position || "afterbegin";
-    this.headings = options.headings || ["h1", "h2", "h3", "h4", "h5", "h6"];
+    this.position = options.position ?? "afterbegin";
+    this.headings = options.headings ?? ["h1", "h2", "h3", "h4", "h5", "h6"];
     this.cssClasses = {
-      toc: cssClasses.toc === undefined ? "toc" : cssClasses.toc,
-      list: cssClasses.list === undefined ? "toc-level" : cssClasses.list,
-      listItem: cssClasses.listItem === undefined ? "toc-item" : cssClasses.listItem,
-      link: cssClasses.link === undefined ? "toc-link" : cssClasses.link,
+      toc: cssClasses.toc ?? "toc",
+      list: cssClasses.list ?? "toc-level",
+      listItem: cssClasses.listItem ?? "toc-item",
+      link: cssClasses.link ?? "toc-link",
     };
+    this.addClassSuffix =
+      options.addClassSuffix === undefined ? true : Boolean(options.addClassSuffix);
     this.customizeTOC = options.customizeTOC;
     this.customizeTOCItem = options.customizeTOCItem;
   }

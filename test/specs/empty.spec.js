@@ -1,14 +1,13 @@
-"use strict";
-
-import process from "../utils/process";
-import compare from "../utils/compare";
+import process from "../utils/process.js";
+import compare from "../utils/compare.js";
 
 describe("Empty TOC", () => {
-
   it("should add an empty TOC to the <body> if the HTML is empty", async () => {
     let results = await process("");
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -17,13 +16,16 @@ describe("Empty TOC", () => {
           </nav>
         </body>
       </html>
-    `);
+    `,
+    );
   });
 
   it("should add an empty TOC to the <main> if the HTML is a <main> fragment", async () => {
     let results = await process("<main></main>");
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -34,13 +36,16 @@ describe("Empty TOC", () => {
           </main>
         </body>
       </html>
-    `);
+    `,
+    );
   });
 
   it("should add an empty TOC to the <body> if the <body> is in the <head>", async () => {
     let results = await process("<head><body></body></head>");
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -49,13 +54,16 @@ describe("Empty TOC", () => {
           </nav>
         </body>
       </html>
-    `);
+    `,
+    );
   });
 
   it("should add an empty TOC to the <main> if the <main> is in the <head>", async () => {
     let results = await process("<head><main></main></head>");
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -66,7 +74,8 @@ describe("Empty TOC", () => {
           </main>
         </body>
       </html>
-    `);
+    `,
+    );
   });
 
   it("should add an empty TOC to the <body> if there's no <main> and no headings", async () => {
@@ -78,7 +87,9 @@ describe("Empty TOC", () => {
       </html>
     `);
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -88,7 +99,8 @@ describe("Empty TOC", () => {
           <p>Lorem ipsum dolor sit amet...</p>
         </body>
       </html>
-    `);
+    `,
+    );
   });
 
   it("should add an empty TOC to the <main> if there's a <main> with no headings", async () => {
@@ -102,7 +114,9 @@ describe("Empty TOC", () => {
       </html>
     `);
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -114,7 +128,8 @@ describe("Empty TOC", () => {
           </main>
         </body>
       </html>
-    `);
+    `,
+    );
   });
 
   it("should ignore headings outside of the <main>", async () => {
@@ -137,7 +152,9 @@ describe("Empty TOC", () => {
       </html>
     `);
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head>
         </head>
@@ -157,7 +174,7 @@ describe("Empty TOC", () => {
           </footer>
         </body>
       </html>
-    `);
+    `,
+    );
   });
-
 });

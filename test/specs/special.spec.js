@@ -1,10 +1,7 @@
-"use strict";
-
-import process from "../utils/process";
-import compare from "../utils/compare";
+import process from "../utils/process.js";
+import compare from "../utils/compare.js";
 
 describe("Special Cases", () => {
-
   it("should handle headings that are out of order", async () => {
     let results = await process(`
       <html>
@@ -19,7 +16,9 @@ describe("Special Cases", () => {
       </html>
     `);
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -55,7 +54,8 @@ describe("Special Cases", () => {
           <h3>Three Again</h3>
         </body>
       </html>
-    `);
+    `,
+    );
   });
 
   it("should include headings that get moved from <head> to <body>", async () => {
@@ -70,7 +70,9 @@ describe("Special Cases", () => {
       </html>
     `);
 
-    compare(results, `
+    compare(
+      results,
+      `
       <html>
         <head></head>
         <body>
@@ -85,7 +87,7 @@ describe("Special Cases", () => {
           <p>Lorem ipsum dolor sit amet...</p>
         </body>
       </html>
-    `);
+    `,
+    );
   });
-
 });
