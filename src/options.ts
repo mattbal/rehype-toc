@@ -129,10 +129,10 @@ export class NormalizedOptions {
     this.position = options.position ?? "afterbegin";
     this.headings = options.headings ?? ["h1", "h2", "h3", "h4", "h5", "h6"];
     this.cssClasses = {
-      toc: cssClasses.toc ?? "toc",
-      list: cssClasses.list ?? "toc-level",
-      listItem: cssClasses.listItem ?? "toc-item",
-      link: cssClasses.link ?? "toc-link",
+      toc: cssClasses.toc === undefined ? "toc" : cssClasses.toc,
+      list: cssClasses.list === undefined ? "toc-level" : cssClasses.list,
+      listItem: cssClasses.listItem === undefined ? "toc-item" : cssClasses.listItem,
+      link: cssClasses.link === undefined ? "toc-link" : cssClasses.link,
     };
     this.addClassSuffix =
       options.addClassSuffix === undefined ? true : Boolean(options.addClassSuffix);

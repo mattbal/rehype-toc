@@ -115,11 +115,11 @@ export default {
   "@typescript-eslint/no-unsafe-return": "warn",
 
   /**
-   * Enforce nullish coalescing
+   * Allow ternary operators to be used instead of the nullish coalescing operator
    *
    * @see https://typescript-eslint.io/rules/prefer-nullish-coalescing
    */
-  "@typescript-eslint/prefer-nullish-coalescing": "error",
+  "@typescript-eslint/prefer-nullish-coalescing": "off",
 
   /**
    * Prefer using type parameter when calling Array#reduce instead of casting
