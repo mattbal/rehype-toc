@@ -1,4 +1,4 @@
-name: Publish release to npm
+name: Publish GitHub release to npm
 
 on:
   release:
@@ -6,7 +6,6 @@ on:
 
 jobs:
   publish:
-    needs: build
     runs-on: ubuntu-latest
     permissions:
       id-token: write
