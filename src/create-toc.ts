@@ -114,7 +114,7 @@ function createList(
     type: "element",
     tagName: "ol",
     properties: {
-      className: options.addClassSuffix
+      className: options.addClassSuffix.ol
         ? buildClass(options.cssClasses.list, depth)
         : options.cssClasses.list,
     },
@@ -140,7 +140,7 @@ function createListItem(heading: HeadingNode, options: NormalizedOptions): Eleme
       hookArgs: [heading],
     },
     properties: {
-      className: options.addClassSuffix
+      className: options.addClassSuffix.li
         ? buildClass(options.cssClasses.listItem, heading.tagName)
         : options.cssClasses.listItem,
     },
@@ -149,7 +149,7 @@ function createListItem(heading: HeadingNode, options: NormalizedOptions): Eleme
         type: "element",
         tagName: "a",
         properties: {
-          className: options.addClassSuffix
+          className: options.addClassSuffix.a
             ? buildClass(options.cssClasses.link, heading.tagName)
             : options.cssClasses.link,
           href: `#${heading.properties.id ?? ""}`,

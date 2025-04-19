@@ -8,6 +8,12 @@ import type { Element, ElementContent } from "hast";
  */
 export type InsertPosition = "beforebegin" | "afterbegin" | "beforeend" | "afterend";
 
+export interface AddClassSuffix {
+  ol?: boolean;
+  li?: boolean;
+  a?: boolean;
+}
+
 /**
  * Options for the Rehype TOC plugin
  */
@@ -42,13 +48,13 @@ export interface Options {
   cssClasses?: CssClasses;
 
   /**
-   * If true, the elements in the table of contents will have a suffix appended to their class name. E.g., a generated `<li class="toc-item">` will become `<li class="toc-item toc-item-h1">`, which will allow you to apply different CSS styling depending on the element's depth level.
+   * Will add a suffix to toc elements indicating the depth or header level. E.g., `<li class="toc-item">` will become `<li class="toc-item toc-item-h1">`
    *
-   * To add the suffix, under the hood, rehype-toc duplicates the element's class name and appends the suffix at the end of the class name. So, if you plan on using a custom class name for an element with multiple classes in it like `cssClasses: { listItem: "toc-item focused semibold"}`, make sure to set `addClassSuffix` to false, otherwise, your multiple class names will be unnecessarily duplicated like so: `toc-item focused semibold toc-item focused semibold-h2`
+   * If you plan on using multiple custom class names for an element like `cssClasses: { listItem: "toc-item focused semibold"}`, make sure to set `addClassSuffix` to false, otherwise, your multiple class names will be unnecessarily duplicated like so: `toc-item focused semibold toc-item focused semibold-h2`
    *
-   * Defaults to `true`.
+   * Defaults to `true` for all options.
    */
-  addClassSuffix?: boolean;
+  addClassSuffix?: AddClassSuffix;
 
   /**
    * Allows you to customize the table of contents before it is added to the page.
@@ -115,7 +121,7 @@ export class NormalizedOptions {
   public readonly position: InsertPosition;
   public readonly headings: HeadingTagName[];
   public readonly cssClasses: Required<CssClasses>;
-  public readonly addClassSuffix: boolean;
+  public readonly addClassSuffix: AddClassSuffix;
   public readonly customizeTOC?: CustomizationHook;
   public readonly customizeTOCItem?: CustomizationHook;
 
@@ -134,8 +140,11 @@ export class NormalizedOptions {
       listItem: cssClasses.listItem === undefined ? "toc-item" : cssClasses.listItem,
       link: cssClasses.link === undefined ? "toc-link" : cssClasses.link,
     };
-    this.addClassSuffix =
-      options.addClassSuffix === undefined ? true : Boolean(options.addClassSuffix);
+    this.addClassSuffix = {
+      ol: options.addClassSuffix?.ol === undefined ? true : Boolean(options.addClassSuffix.ol),
+      li: options.addClassSuffix?.li === undefined ? true : Boolean(options.addClassSuffix.li),
+      a: options.addClassSuffix?.a === undefined ? true : Boolean(options.addClassSuffix.a),
+    };
     this.customizeTOC = options.customizeTOC;
     this.customizeTOCItem = options.customizeTOCItem;
   }

@@ -3,6 +3,10 @@
 All notable changes will be documented in this file.
 Rehype TOC adheres to [Semantic Versioning](http://semver.org/).
 
+## [v3.5.0](https://github.com/mattbal/rehype-toc/tree/v3.5.0) (2025-04-18)
+
+- Added more customization options to `addClassSuffix`
+
 ## [v3.4.0](https://github.com/mattbal/rehype-toc/tree/v3.4.0) (2025-04-17)
 
 - Updated all dependencies to latest versions
