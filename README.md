@@ -4,7 +4,7 @@ A [rehype](https://github.com/rehypejs/rehype) plugin that adds a table of conte
 
 > forked from [JS-DevTools/rehype-toc](https://github.com/JS-DevTools/rehype-toc) as the original repository seems no longer maintained.
 
-[![Test Status](https://github.com/mattbal/rehype-toc/workflows/test/badge.svg)](https://github.com/mattbal/rehype-toc/actions)
+[![Tests](https://github.com/mattbal/rehype-toc/actions/workflows/test.yml/badge.svg?branch=master&event=push)](https://github.com/mattbal/rehype-toc/actions/workflows/test.yml)
 
 [![npm](https://img.shields.io/npm/v/%40mattbal%2Frehype-toc)](https://www.npmjs.com/package/@mattbal/rehype-toc)
 [![License](https://img.shields.io/npm/l/%40mattbal%2Frehype-toc)](LICENSE)
